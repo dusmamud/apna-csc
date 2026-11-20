@@ -1,14 +1,15 @@
-// Minimal offline support for the static site.
-// - Precache: built JS/CSS + prerendered HTML pages (NOT static images/fonts —
-//   those are runtime-cached on first use so install stays light).
+// Minimal offline support for the static site (SvelteKit 3: $app/manifest).
+// - Precache: built JS/CSS (immutable) + prerendered HTML pages (NOT static
+//   images/fonts — those are runtime-cached on first use so install stays light).
 // - Navigations: network first, fall back to cache, finally to cached home.
 // - Other same-origin GETs: stale-while-revalidate.
 // Cache name carries the build version, so every deploy replaces it cleanly.
-import { build, prerendered, version } from '$service-worker';
+import { immutable, prerendered } from '$app/manifest';
+import { version } from '$app/env';
 
 const worker = self as unknown as ServiceWorkerGlobalScope;
 const CACHE = `apna-csc-${version}`;
-const PRECACHE = [...build, ...prerendered];
+const PRECACHE = [...immutable.map((f) => f.path), ...prerendered.map((p) => p.path)];
 
 worker.addEventListener('install', (event) => {
 	event.waitUntil(
