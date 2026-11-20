@@ -64,7 +64,7 @@ worker.addEventListener('fetch', (event: FetchEvent) => {
 					if (response.ok) cache.put(request, response.clone());
 					return response;
 				})
-				.catch(() => cached);
+				.catch(() => cached ?? Response.error());
 			return cached ?? network;
 		})
 	);
