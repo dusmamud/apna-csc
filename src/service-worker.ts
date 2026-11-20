@@ -1,3 +1,8 @@
+/// <reference types="@sveltejs/kit" />
+/// <reference no-default-lib="true" />
+/// <reference lib="esnext" />
+/// <reference lib="webworker" />
+
 // Minimal offline support for the static site (SvelteKit 3: $app/manifest).
 // - Precache: built JS/CSS (immutable) + prerendered HTML pages (NOT static
 //   images/fonts — those are runtime-cached on first use so install stays light).
@@ -11,7 +16,7 @@ const worker = self as unknown as ServiceWorkerGlobalScope;
 const CACHE = `apna-csc-${version}`;
 const PRECACHE = [...immutable.map((f) => f.path), ...prerendered.map((p) => p.path)];
 
-worker.addEventListener('install', (event) => {
+worker.addEventListener('install', (event: ExtendableEvent) => {
 	event.waitUntil(
 		caches
 			.open(CACHE)
@@ -20,7 +25,7 @@ worker.addEventListener('install', (event) => {
 	);
 });
 
-worker.addEventListener('activate', (event) => {
+worker.addEventListener('activate', (event: ExtendableEvent) => {
 	event.waitUntil(
 		caches
 			.keys()
@@ -29,7 +34,7 @@ worker.addEventListener('activate', (event) => {
 	);
 });
 
-worker.addEventListener('fetch', (event) => {
+worker.addEventListener('fetch', (event: FetchEvent) => {
 	const { request } = event;
 	if (request.method !== 'GET') return;
 	const url = new URL(request.url);
