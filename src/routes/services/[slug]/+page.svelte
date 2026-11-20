@@ -41,7 +41,7 @@
 			</div>
 			<div class="checklist-print" style="display:none">
 				<p style="font-family:sans-serif"><strong>{site.name}</strong> — {s.name}<br />Rate: {s.price > 0 ? `${inr(s.price)} ${s.priceNote}` : s.priceNote} · Samay: {s.duration}<br />{site.contact.address} · {site.contact.phone}</p>
-				<p style="font-family:sans-serif"><strong>Documents Required:</strong></p>
+				<p style="font-family:sans-serif"><strong>Documents Checklist — Ye Lekar Aao:</strong></p>
 				<ul style="font-family:sans-serif">{#each s.documents as d (d)}<li>☐ {d}</li>{/each}</ul>
 			</div>
 			<ul class="mt-4 space-y-2.5">{#each s.documents as d (d)}<li class="flex gap-3 rounded-xl bg-teal-50 px-4 py-3 font-medium text-slate-900"><Icon name="check" class="mt-0.5 h-5 w-5 shrink-0 text-teal-800" />{d}</li>{/each}</ul>
