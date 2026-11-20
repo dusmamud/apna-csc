@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { calculateAge, calculateEmi, matchSchemes, shopOpenStatus } from './tools.ts';
+import { calculateAge, calculateEmi, calculateGst, matchSchemes, shopOpenStatus, upiLink } from './tools.ts';
 import { schemes } from './site.ts';
 
 describe('age calculator', () => {
@@ -40,6 +40,35 @@ describe('scheme finder', () => {
 		const rich = matchSchemes(schemes, { age: 30, occupation: 'worker', annualIncome: 900000 }).map((s) => s.slug);
 		expect(rich).not.toContain('pm-jay');
 		expect(rich).not.toContain('pm-awas');
+	});
+});
+
+describe('GST calculator', () => {
+	it('adds GST on top of base amount', () => {
+		expect(calculateGst(1000, 18, 'add')).toEqual({ base: 1000, gst: 180, total: 1180 });
+		expect(calculateGst(500, 5, 'add')).toEqual({ base: 500, gst: 25, total: 525 });
+	});
+	it('splits GST out of an inclusive amount', () => {
+		expect(calculateGst(1180, 18, 'included')).toEqual({ base: 1000, gst: 180, total: 1180 });
+		expect(calculateGst(112, 12, 'included')).toEqual({ base: 100, gst: 12, total: 112 });
+	});
+	it('rejects invalid input', () => {
+		expect(calculateGst(0, 18, 'add')).toBeNull();
+		expect(calculateGst(100, -1, 'add')).toBeNull();
+		expect(calculateGst(100, 101, 'add')).toBeNull();
+	});
+});
+
+describe('UPI link builder', () => {
+	it('builds a valid upi:// link with amount', () => {
+		const link = upiLink('9876543210@paytm', 'Apna CSC', 250);
+		expect(link).toContain('upi://pay?');
+		expect(link).toContain('pa=9876543210%40paytm');
+		expect(link).toContain('am=250');
+	});
+	it('rejects malformed UPI ids', () => {
+		expect(upiLink('not-an-id', 'X')).toBeNull();
+		expect(upiLink('a@b', 'X')).toBeNull();
 	});
 });
 

@@ -2,6 +2,7 @@
 	import Icon from '#lib/components/Icon.svelte';
 	import { site, whatsappLink } from '#lib/site.ts';
 	import Breadcrumbs from '#lib/components/Breadcrumbs.svelte';
+	import ShareButtons from '#lib/components/ShareButtons.svelte';
 	let { data } = $props();
 	const u = $derived(data.update);
 </script>
@@ -26,6 +27,7 @@
 			</dl>
 			<h2 class="mt-8 font-display text-2xl font-black text-slate-900">Documents — Form Ke Liye Ye Chahiye</h2>
 			<ul class="mt-4 space-y-2.5">{#each u.documents as d (d)}<li class="flex gap-3 rounded-xl bg-teal-50 px-4 py-3 font-medium text-slate-900"><Icon name="check" class="mt-0.5 h-5 w-5 shrink-0 text-teal-800" />{d}</li>{/each}</ul>
+			<div class="mt-8 border-t border-slate-200 pt-6"><ShareButtons title={u.title} path="/updates/{u.slug}" /></div>
 			{#if u.officialLink}
 				<div class="mt-8 rounded-2xl border-2 border-teal-700 bg-teal-50 p-5">
 					<p class="font-bold text-slate-900">Official Website — {u.org}</p>

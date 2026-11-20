@@ -35,6 +35,7 @@ export const nav = [
 	{ label: 'Online Forms', href: '/online-forms' },
 	{ label: 'Updates', href: '/updates' },
 	{ label: 'Pricing', href: '/pricing' },
+	{ label: 'Offers', href: '/offers' },
 	{ label: 'Schemes', href: '/schemes' },
 	{ label: 'Tools', href: '/tools' },
 	{ label: 'Blog', href: '/blog' },
@@ -78,6 +79,8 @@ export const services: Service[] = [
 	S('pm-awas', 'PM Awas Yojana — Apply / List Check', 'Awas yojana', 'schemes', 80, 'se shuru', '20 minute', ['Aadhaar card', 'Ration card', 'Bank passbook', 'Job card (ho to)'], 'PM Awas (Gramin / Shahri) ka aavedan, naam list me check aur kist ka status.'),
 	S('pension-schemes', 'Pension Schemes — PMJJBY / PMSBY / APY', 'Pension aur bima yojana', 'schemes', 50, 'se shuru', '10 minute', ['Aadhaar card', 'Bank passbook'], '₹2 lakh bima (PMJJBY/PMSBY) aur Atal Pension Yojana me naamankan aur premium jaankari.'),
 	S('kisan-credit-card', 'Kisan Credit Card (KCC)', 'Kisan credit card', 'schemes', 100, 'se shuru', 'Form 20 minute', ['Aadhaar card', 'Zameen ke kagaz', 'Bank passbook', 'Photo'], 'Kheti ke liye KCC loan form aur bank me jama karne layak poora document set.'),
+	S('pm-fasal-bima', 'PM Fasal Bima (PMFBY) — Crop Insurance', 'Fasal bima yojana', 'schemes', 80, 'se shuru', 'Form 20 minute', ['Aadhaar card', 'Bank passbook', 'Zameen ke kagaz (khata-khesra)', 'Fasal / bigha ki jaankari'], 'Fasal kharab hone par PMFBY ke tahat bima daava — season se pehle registration, premium hisaab aur claim me madad.', true),
+	S('bhulekh-land-records', 'Bhulekh — Zameen Ke Kagaz (Khatiyan)', 'Bhulekh / zameen record', 'certificates', 50, 'per print, se shuru', '10 minute', ['Khata / khesra number', 'Aadhaar card', 'Zameen malik ka naam'], 'Bihar Bhulekh se khatiyan, jamabandi aur zameen record ki print — PM-Kisan, KCC aur registry ke kaam ke liye.'),
 	S('udyam-registration', 'Udyam (MSME) Registration', 'Udyam registration', 'schemes', 150, 'se shuru', '15 minute', ['Aadhaar card', 'PAN card', 'Bank account details'], 'Dukaan / chhote business ke liye Udyam registration — loan aur yojanaon ke liye zaroori.'),
 	S('aeps', 'AePS — Cash Withdrawal / Deposit / Balance', 'Aadhaar se paisa', 'banking', 0, 'bank niyam anusar', 'Turant', ['Aadhaar card', 'Bank khata Aadhaar se link', 'Fingerprint (biometric)'], 'Aadhaar aur ungli ke nishan se paisa nikalna, jama karna, balance aur mini statement — bank jaane ki zaroorat nahi.', true),
 	S('money-transfer', 'Money Transfer (DMT)', 'Paisa bhejna', 'banking', 0, 'amount par nirbhar', 'Turant', ['Receiver ka account number aur IFSC', 'Sender ka mobile number'], 'Desh ke kisi bhi bank khate me turant paisa bhejna — receipt ke saath, cash bhi swikar.'),
@@ -125,7 +128,8 @@ export const schemes: Scheme[] = [
 	{ slug: 'pmjjby', name: 'PM Jeevan Jyoti Bima (PMJJBY)', benefit: '₹2 lakh life bima, premium ₹436 / saal', eligibility: '18–50 saal, bank khata wala koi bhi', documents: ['Aadhaar', 'Bank passbook'], serviceSlug: 'pension-schemes' },
 	{ slug: 'pmsby', name: 'PM Suraksha Bima (PMSBY)', benefit: '₹2 lakh durghatna bima, premium sirf ₹20 / saal', eligibility: '18–70 saal, bank khata wala koi bhi', documents: ['Aadhaar', 'Bank passbook'], serviceSlug: 'pension-schemes' },
 	{ slug: 'apy', name: 'Atal Pension Yojana (APY)', benefit: '60 saal ke baad ₹1,000–₹5,000 / mahina pakki pension', eligibility: '18–40 saal, bank khata wala', documents: ['Aadhaar', 'Bank passbook', 'Mobile number'], serviceSlug: 'pension-schemes' },
-	{ slug: 'kcc', name: 'Kisan Credit Card (KCC)', benefit: 'Kheti ke liye ₹3 lakh tak sasta byaj par loan', eligibility: 'Kisan, FPO aur pashu-palan / matsya palak', documents: ['Aadhaar', 'Zameen ke kagaz', 'Bank passbook'], serviceSlug: 'kisan-credit-card' }
+	{ slug: 'kcc', name: 'Kisan Credit Card (KCC)', benefit: 'Kheti ke liye ₹3 lakh tak sasta byaj par loan', eligibility: 'Kisan, FPO aur pashu-palan / matsya palak', documents: ['Aadhaar', 'Zameen ke kagaz', 'Bank passbook'], serviceSlug: 'kisan-credit-card' },
+	{ slug: 'pmfby', name: 'PM Fasal Bima Yojana (PMFBY)', benefit: 'Fasal barbaad hone par bima daava — premium ka bada hissa sarkar bharti hai', eligibility: 'Fasal ugaane wale sab kisan (bataidaar bhi)', documents: ['Aadhaar', 'Bank passbook', 'Khata-khesra', 'Fasal jaankari'], serviceSlug: 'pm-fasal-bima' }
 ];
 
 export type UpdateItem = { slug: string; type: 'Job' | 'Admit Card' | 'Result' | 'Answer Key'; title: string; org: string; posts?: string; startDate: string; lastDate: string; examDate?: string; fee: string; eligibility: string; documents: string[]; summary: string; officialLink?: string };
@@ -258,7 +262,8 @@ const schemeFinderRules: Record<string, SchemeFinder> = {
 	'pmjjby': { occupations: ['farmer', 'worker', 'woman', 'student', 'business', 'other'], minAge: 18, maxAge: 50 },
 	'pmsby': { occupations: ['farmer', 'worker', 'woman', 'student', 'business', 'senior', 'other'], minAge: 18, maxAge: 70 },
 	'apy': { occupations: ['farmer', 'worker', 'woman', 'business', 'other'], minAge: 18, maxAge: 40 },
-	'kcc': { occupations: ['farmer'], minAge: 18 }
+	'kcc': { occupations: ['farmer'], minAge: 18 },
+	'pmfby': { occupations: ['farmer'], minAge: 18 }
 };
 for (const sc of schemes) sc.finder = schemeFinderRules[sc.slug];
 export const finderOccupations = [
@@ -357,8 +362,33 @@ export const toolsList = [
 	{ id: 'compress', name: 'Image Compressor', hindi: 'इमेज छोटा करें', text: 'Badi photo ko quality bachate hue chhota karo — 200 KB, 100 KB ya apni pasand ke size tak.' },
 	{ id: 'age', name: 'Age Calculator', hindi: 'उम्र कैलकुलेटर', text: 'Janm tithi se aaj ki sahi umr — saal, mahina, din. Naukri form ki umr-seema check karne ke liye perfect.' },
 	{ id: 'emi', name: 'EMI Calculator', hindi: 'किस्त कैलकुलेटर', text: 'Loan ki mahina kist, kul byaj aur kul bhugtan — KCC, personal ya bike loan lene se pehle hisaab saaf.' },
-	{ id: 'images-pdf', name: 'Images to PDF', hindi: 'फ़ोटो से PDF', text: 'Documents ki photo ko ek PDF me jodo — print karke PDF save kar lo, form upload ke liye taiyaar.' }
+	{ id: 'images-pdf', name: 'Images to PDF', hindi: 'फ़ोटो से PDF', text: 'Documents ki photo ko ek PDF me jodo — print karke PDF save kar lo, form upload ke liye taiyaar.' },
+	{ id: 'upi-qr', name: 'UPI QR Generator', hindi: 'UPI QR बनाएँ', text: 'Apni UPI ID ka QR code banao — dukaan, payment ya dost ko bhejne ke liye. Amount pehle se set bhi kar sakte ho.' },
+	{ id: 'gst', name: 'GST Calculator', hindi: 'GST कैलकुलेटर', text: 'Rate par GST jodo ya kul keemat me se GST alag karo — 5%, 12%, 18%, 28% sab slabs ka hisaab turant.' }
 ];
+// ---- Round-2 additions: offers, enquiry slots, zones ----
+export type Offer = { slug: string; title: string; hindi: string; description: string; priceNote: string; validTill: string; validISO: string; terms: string[]; serviceSlug?: string };
+export const offers: Offer[] = [
+	{ slug: 'pvc-combo-offer', title: 'PVC Card Combo — 3 Card, Ek Daam', hindi: 'पीवीसी कार्ड कॉम्बो', description: 'Aadhaar + PAN + Voter — teeno card mazboot PVC par ek saath print karwao, combo daam me. Ek-ek karke karwane se sasta padega.', priceNote: '₹120 me 3 PVC card (aam daam ₹150)', validTill: '31 Dec 2026', validISO: '2026-12-31', terms: ['Teeno card ek hi parivar ke hone chahiye', 'Card ki PDF / number saath laayein', 'Offer sirf dukaan par aakar lene par'], serviceSlug: 'pvc-card' },
+	{ slug: 'student-form-season', title: 'Student Form Season Offer', hindi: 'छात्र फ़ॉर्म ऑफ़र', description: 'Scholarship + admission form ek saath bharwao — dusre form par service charge aadha. Photo, signature resize bilkul muft.', priceNote: 'Dusra form sirf ₹50 me', validTill: '31 Dec 2026', validISO: '2026-12-31', terms: ['Dono form ek hi chhatra ke, ek hi din bharne par', 'Sarkari / exam fee alag, actual par', 'Photo-signature resize muft sirf form ke saath'], serviceSlug: 'scholarship-form' },
+	{ slug: 'bulk-print-offer', title: 'Bulk Print Offer — 100+ Page', hindi: 'थोक प्रिंट ऑफ़र', description: 'Notes, project aur coaching material ke bulk print par khaas daam. WhatsApp par PDF bhejo, taiyaar print aakar le jao.', priceNote: 'B/W print sirf ₹2 / page (100+ page par)', validTill: '15 Dec 2026', validISO: '2026-12-15', terms: ['Kam se kam 100 page ek saath', 'Ek side (single-side) B/W print par lagu', 'File PDF me pehle se taiyaar ho'], serviceSlug: 'printing-xerox' },
+	{ slug: 'ayushman-parivar-offer', title: 'Ayushman Parivar Offer', hindi: 'आयुष्मान परिवार ऑफ़र', description: 'Poore parivar ka Ayushman card ek saath banwao — 4 sadasya ke baad ke har card par service charge muft, PVC print ke saath.', priceNote: '5ve sadasya se service charge ₹0', validTill: '31 Dec 2026', validISO: '2026-12-31', terms: ['Sab sadasya ka naam patr suchi (SECC/ration card) me hona chahiye', 'Har sadasya ka Aadhaar + e-KYC zaroori', 'Ek hi din, ek hi parivar par lagu'], serviceSlug: 'ayushman-card' },
+	{ slug: 'resume-photo-combo', title: 'Resume + Photo Combo', hindi: 'रिज़्यूमे कॉम्बो', description: 'Naukri ke liye professional resume aur 6 passport photo ek combo me — interview ki taiyaari ek hi baar me poori.', priceNote: 'Combo sirf ₹130 (aam daam ₹150)', validTill: '20 Dec 2026', validISO: '2026-12-20', terms: ['Resume ek page ka standard format', 'Photo ki soft copy mobile par muft', 'Same-day taiyaar, bheed par nirbhar'], serviceSlug: 'resume-typing' },
+	{ slug: 'pm-kisan-season-offer', title: 'PM-Kisan e-KYC Season Offer', hindi: 'किसान ई-केवाईसी ऑफ़र', description: 'Kist se pehle e-KYC + beneficiary status check ek saath — biometric e-KYC karwane par status print muft.', priceNote: 'e-KYC ₹60, status print muft', validTill: '31 Dec 2026', validISO: '2026-12-31', terms: ['Aadhaar aur bank passbook saath laayein', 'Biometric ke liye kisan ka khud aana zaroori', 'Status print ek page muft'], serviceSlug: 'pm-kisan' }
+];
+export const getOffer = (slug: string) => offers.find((o) => o.slug === slug);
+
+// Preferred visit slots for /enquiry (mock, from shop hours).
+export const enquirySlots = [
+	{ value: '09-11', label: 'Subah 9 – 11 baje' },
+	{ value: '11-13', label: 'Subah 11 – Dopahar 1 baje' },
+	{ value: '13-15', label: 'Dopahar 1 – 3 baje' },
+	{ value: '15-17', label: 'Dopahar 3 – Shaam 5 baje' },
+	{ value: '17-20', label: 'Shaam 5 – 8 baje' },
+	{ value: 'sun-10-14', label: 'Ravivaar 10 – 2 baje (sirf Ravivaar ko)' }
+];
+export const slotLabel = (value: string) => enquirySlots.find((s) => s.value === value)?.label ?? value;
+
 export const photoSizeGuide = [
 	{ exam: 'SSC (sab exam)', photo: '200 × 230 px', signature: '140 × 60 px', maxKb: 'Photo 20–50 KB · Signature 10–20 KB' },
 	{ exam: 'Railway RRB', photo: '350 × 350 px', signature: '100 × 50 px (lagbhag)', maxKb: 'Photo 15–40 KB · Signature 5–20 KB' },

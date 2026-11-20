@@ -4,7 +4,7 @@
 	type Props = { service: Service };
 	let { service }: Props = $props();
 </script>
-<a href="/services/{service.slug}" class="group flex min-h-12 flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-teal-700 hover:shadow-md">
+<a href="/services/{service.slug}" class="press group flex min-h-12 flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:border-teal-700 hover:shadow-md">
 	<div class="flex items-start justify-between gap-3">
 		<h3 class="font-display text-lg font-bold leading-snug text-slate-900 group-hover:text-teal-800">{service.name}</h3>
 		{#if service.popular}<span class="shrink-0 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-900">Lokpriya</span>{/if}

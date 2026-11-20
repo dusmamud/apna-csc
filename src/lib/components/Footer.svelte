@@ -13,32 +13,35 @@
 		</div>
 		<nav aria-label="Services">
 			<p class="font-display font-bold text-white">Services</p>
-			<ul class="mt-3 space-y-2 text-sm">
-				{#each categories as c (c.slug)}<li><a class="hover:text-amber-300" href="/services?cat={c.slug}">{c.name}</a></li>{/each}
+			<ul class="mt-3 text-sm">
+				{#each categories as c (c.slug)}<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/services?cat={c.slug}">{c.name}</a></li>{/each}
 			</ul>
 		</nav>
 		<nav aria-label="Useful pages">
 			<p class="font-display font-bold text-white">Kaam ke Pages</p>
-			<ul class="mt-3 space-y-2 text-sm">
-				<li><a class="hover:text-amber-300" href="/online-forms">Online Forms</a></li>
-				<li><a class="hover:text-amber-300" href="/updates">Latest Jobs, Admit Card, Results</a></li>
-				<li><a class="hover:text-amber-300" href="/pricing">Rate Chart / Pricing</a></li>
-				<li><a class="hover:text-amber-300" href="/schemes">Sarkari Yojana</a></li>
-				<li><a class="hover:text-amber-300" href="/banking">Banking & AePS</a></li>
-				<li><a class="hover:text-amber-300" href="/enquiry">Online Enquiry</a></li>
-				<li><a class="hover:text-amber-300" href="/track-status">Track Status / Status Check</a></li>
-				<li><a class="hover:text-amber-300" href="/tools">Free Tools — Photo Resize, Age/EMI Calculator</a></li>
-				<li><a class="hover:text-amber-300" href="/downloads">Downloads — Forms & Checklists</a></li>
-				<li><a class="hover:text-amber-300" href="/blog">Blog / Guides (Hinglish)</a></li>
-				<li><a class="hover:text-amber-300" href="/faq">FAQ</a></li>
-				<li><a class="hover:text-amber-300" href="/privacy">Privacy Policy</a></li>
-				<li><a class="hover:text-amber-300" href="/terms">Terms & Disclaimer</a></li>
+			<ul class="mt-3 text-sm">
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/online-forms">Online Forms</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/updates">Latest Jobs, Admit Card, Results</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/pricing">Rate Chart / Pricing</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/schemes">Sarkari Yojana</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/banking">Banking & AePS</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/enquiry">Online Enquiry</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/track-status">Track Status / Status Check</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/tools">Free Tools — Photo Resize, Age/EMI Calculator</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/downloads">Downloads — Forms & Checklists</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/blog">Blog / Guides (Hinglish)</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/offers">Offers — Is Mahine Ke Khaas Daam</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/student-zone">Student Zone — Scholarship, Admission, Exam</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/kisan-corner">Kisan Corner — PM-Kisan, KCC, Fasal Bima</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/faq">FAQ</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/privacy">Privacy Policy</a></li>
+				<li><a class="flex min-h-11 items-center hover:text-amber-300" href="/terms">Terms & Disclaimer</a></li>
 			</ul>
 		</nav>
 		<nav aria-label="Official portals">
 			<p class="font-display font-bold text-white">Official Sarkari Portals</p>
-			<ul class="mt-3 space-y-2 text-sm">
-				{#each portals as p (p.href)}<li><a class="hover:text-amber-300" href={p.href} target="_blank" rel="noopener noreferrer">{p.name} ↗</a></li>{/each}
+			<ul class="mt-3 text-sm">
+				{#each portals as p (p.href)}<li><a class="flex min-h-11 items-center hover:text-amber-300" href={p.href} target="_blank" rel="noopener noreferrer">{p.name} ↗</a></li>{/each}
 			</ul>
 			<p class="mt-4 text-sm leading-relaxed"><Icon name="phone" class="mr-1 inline h-4 w-4 text-amber-300" />{site.contact.phone}<br /><Icon name="mail" class="mr-1 inline h-4 w-4 text-amber-300" />{site.contact.email}</p>
 		</nav>

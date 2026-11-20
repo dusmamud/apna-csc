@@ -36,6 +36,29 @@ export function matchSchemes<T extends FinderScheme>(schemes: T[], input: Finder
 	});
 }
 
+export type GstResult = { base: number; gst: number; total: number };
+// mode 'add': amount is base price, GST is added on top.
+// mode 'included': amount already includes GST, split it out.
+export function calculateGst(amount: number, ratePct: number, mode: 'add' | 'included'): GstResult | null {
+	if (!(amount > 0) || ratePct < 0 || ratePct > 100) return null;
+	const round2 = (n: number) => Math.round(n * 100) / 100;
+	if (mode === 'add') {
+		const gst = round2((amount * ratePct) / 100);
+		return { base: round2(amount), gst, total: round2(amount + gst) };
+	}
+	const base = round2(amount / (1 + ratePct / 100));
+	return { base, gst: round2(amount - base), total: round2(amount) };
+}
+
+export function upiLink(upiId: string, payeeName: string, amount?: number, note?: string): string | null {
+	const id = upiId.trim();
+	if (!/^[\w.\-]{2,}@[a-zA-Z]{2,}/.test(id)) return null;
+	const params = new URLSearchParams({ pa: id, pn: payeeName.trim() || 'Apna CSC', cu: 'INR' });
+	if (amount && amount > 0) params.set('am', String(amount));
+	if (note?.trim()) params.set('tn', note.trim());
+	return `upi://pay?${params.toString()}`;
+}
+
 // Shop hours (IST): Mon–Sat 09:00–20:00, Sun 10:00–14:00. Returns minutes until
 // close when open, or null when closed. Pure — takes an IST Date-like parts.
 export function shopOpenStatus(day: number, minutes: number): { open: boolean; label: string } {

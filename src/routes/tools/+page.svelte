@@ -3,7 +3,7 @@
 	import Breadcrumbs from '#lib/components/Breadcrumbs.svelte';
 	import Icon from '#lib/components/Icon.svelte';
 	import { inr, photoSizeGuide, sectionHindi, toolsList } from '#lib/site.ts';
-	import { calculateAge, calculateEmi, type AgeResult, type EmiResult } from '#lib/tools.ts';
+	import { calculateAge, calculateEmi, calculateGst, upiLink, type AgeResult, type EmiResult } from '#lib/tools.ts';
 
 	// ---------- shared image helpers (all client-side, nothing uploads) ----------
 	function loadImage(file: File): Promise<HTMLImageElement> {
@@ -75,6 +75,29 @@
 	let rate = $state(11);
 	let months = $state(24);
 	const emi = $derived(calculateEmi(principal || 0, rate || 0, months || 0) as EmiResult | null);
+	// ---------- GST ----------
+	let gstAmount = $state(1000);
+	let gstRate = $state(18);
+	let gstMode = $state<'add' | 'included'>('add');
+	const gst = $derived(calculateGst(gstAmount || 0, gstRate, gstMode));
+	// ---------- UPI QR (qrcode lib lazy-loaded only when used) ----------
+	let upiId = $state('');
+	let upiName = $state('');
+	let upiAmount = $state<number | ''>('');
+	let upiQr = $state('');
+	let upiError = $state('');
+	let upiBusy = $state(false);
+	async function runUpiQr() {
+		upiError = '';
+		const link = upiLink(upiId, upiName, upiAmount === '' ? undefined : Number(upiAmount));
+		if (!link) { upiError = 'Sahi UPI ID likhein — jaise naam@okhdfcbank ya mobile@paytm.'; upiQr = ''; return; }
+		upiBusy = true;
+		try {
+			const QRCode = (await import('qrcode')).default;
+			upiQr = await QRCode.toDataURL(link, { width: 320, margin: 2 });
+		} catch { upiError = 'QR nahi ban paya — dobara koshish karo.'; }
+		finally { upiBusy = false; }
+	}
 	// ---------- images to PDF ----------
 	let pdfUrls = $state<string[]>([]);
 	function onPdfFiles(e: Event) {
@@ -194,6 +217,43 @@
 				</div>
 			{/if}
 			<p class="mt-3 text-xs leading-relaxed text-slate-600">Ye sirf ek anumaan hai — asal EMI bank ke niyam, processing fee aur byaj dar badalne se alag ho sakti hai. KCC loan ki sahi jaankari ke liye <a class="font-bold text-teal-900 underline" href="/services/kisan-credit-card">Kisan Credit Card page</a> dekho.</p>
+		</section>
+
+		<section id="upi-qr" class="scroll-mt-28 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" aria-labelledby="upi-h">
+			<h2 id="upi-h" class="font-display text-2xl font-black text-slate-900">UPI QR Generator</h2>
+			<p class="mt-1 text-sm font-semibold text-teal-800">UPI QR बनाएँ — दुकान या payment के लिए</p>
+			<div class="mt-4 grid gap-4 sm:grid-cols-2">
+				<div><label class={labelCls} for="upi-id">UPI ID (VPA) *</label><input id="upi-id" type="text" placeholder="jaise: 9876543210@paytm" bind:value={upiId} class={inputCls} autocomplete="off" /></div>
+				<div><label class={labelCls} for="upi-name">Naam (jisko paisa milega)</label><input id="upi-name" type="text" placeholder="Payee ka naam" bind:value={upiName} class={inputCls} /></div>
+				<div><label class={labelCls} for="upi-amount">Amount (₹, optional)</label><input id="upi-amount" type="number" min="1" step="1" placeholder="Khali chhodo = koi bhi amount" bind:value={upiAmount} class={inputCls} /></div>
+				<div class="flex items-end"><button type="button" onclick={runUpiQr} disabled={upiBusy} class="min-h-12 w-full rounded-xl bg-teal-800 px-4 py-3 font-bold text-white hover:bg-teal-900 disabled:opacity-50">{upiBusy ? 'Ban raha hai…' : 'QR Banao'}</button></div>
+			</div>
+			{#if upiError}<p class="mt-3 font-semibold text-red-800" role="alert">{upiError}</p>{/if}
+			{#if upiQr}
+				<div class="mt-4 flex items-center gap-4 rounded-2xl bg-teal-50 p-4" role="status">
+					<img src={upiQr} alt="Aapka UPI QR code" class="h-32 w-32 rounded-lg bg-white object-contain" width="320" height="320" />
+					<p class="text-sm font-semibold text-slate-900">QR taiyaar hai! Koi bhi UPI app (GPay / PhonePe / Paytm) se scan karke payment hoga.<br /><a href={upiQr} download="upi-qr.png" class="mt-1 inline-block font-bold text-teal-900 underline">QR Download Karo ↓</a></p>
+				</div>
+			{/if}
+			<p class="mt-3 text-xs leading-relaxed text-slate-600">QR sirf aapke browser me banta hai — UPI ID kahin upload nahi hoti. Payment lene se pehle QR khud scan karke ek chhoti rakam se test zaroor karo.</p>
+		</section>
+
+		<section id="gst" class="scroll-mt-28 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" aria-labelledby="gst-h">
+			<h2 id="gst-h" class="font-display text-2xl font-black text-slate-900">GST Calculator</h2>
+			<p class="mt-1 text-sm font-semibold text-teal-800">GST कैलकुलेटर — बिल का हिसाब साफ़</p>
+			<div class="mt-4 grid gap-4 sm:grid-cols-3">
+				<div><label class={labelCls} for="gst-amount">Rakam (₹)</label><input id="gst-amount" type="number" min="0" step="any" bind:value={gstAmount} class={inputCls} /></div>
+				<div><label class={labelCls} for="gst-rate">GST Slab</label><select id="gst-rate" bind:value={gstRate} class={inputCls}><option value={5}>5%</option><option value={12}>12%</option><option value={18}>18%</option><option value={28}>28%</option></select></div>
+				<div><label class={labelCls} for="gst-mode">Hisaab Ka Tarika</label><select id="gst-mode" bind:value={gstMode} class={inputCls}><option value="add">Rakam par GST jodo</option><option value="included">Kul rakam me se GST nikalo</option></select></div>
+			</div>
+			{#if gst}
+				<div class="mt-4 grid gap-3 rounded-2xl bg-teal-50 p-4 text-center sm:grid-cols-3" role="status">
+					<p><span class="block text-xs font-bold uppercase tracking-wide text-teal-900">Asli Keemat (Base)</span><strong class="font-display text-2xl font-black text-slate-900">{inr(gst.base)}</strong></p>
+					<p><span class="block text-xs font-bold uppercase tracking-wide text-teal-900">GST ({gstRate}%)</span><strong class="font-display text-2xl font-black text-slate-900">{inr(gst.gst)}</strong></p>
+					<p><span class="block text-xs font-bold uppercase tracking-wide text-teal-900">Kul (Total)</span><strong class="font-display text-2xl font-black text-slate-900">{inr(gst.total)}</strong></p>
+				</div>
+			{/if}
+			<p class="mt-3 text-xs leading-relaxed text-slate-600">Ye sirf hisaab ke liye hai — asal GST slab vastu/seva par nirbhar karta hai. Dukandaaron ke liye Udyam aur GST jaankari dukaan par milegi.</p>
 		</section>
 
 		<section id="images-pdf" class="scroll-mt-28 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-2" aria-labelledby="pdf-h">

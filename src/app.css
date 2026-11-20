@@ -23,3 +23,16 @@ body { font-family: var(--font-sans); color: #0f172a; background: #fff; -webkit-
 	*, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 img { max-width: 100%; }
+/* Anchor jumps must clear the sticky header (~72px) everywhere. */
+[id] { scroll-margin-top: 88px; }
+/* Micro-interactions: press feedback on tappable cards/CTAs (transform only). */
+.press { transition: transform 160ms ease, box-shadow 200ms ease, background-color 200ms ease, border-color 200ms ease; }
+.press:active { transform: scale(0.97); }
+@media (hover: hover) { .press:hover { transform: translateY(-2px); } .press:active { transform: scale(0.97); } }
+a, button { -webkit-tap-highlight-color: transparent; }
+/* Inputs never below 16px — stops iOS focus zoom. */
+input, select, textarea { font-size: 16px; }
+@media print {
+	header, footer, nav[aria-label="Quick contact"], aside[aria-label="WhatsApp quick contact"], [data-backtotop] { display: none !important; }
+	body { padding-bottom: 0 !important; }
+}

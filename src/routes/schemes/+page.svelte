@@ -38,7 +38,7 @@
 						<p class="font-bold text-slate-900">{matched.length} yojana aapke liye ho sakti hai:</p>
 						<ul class="mt-3 grid gap-3 sm:grid-cols-2">
 							{#each matched as sc (sc.slug)}
-								<li class="rounded-2xl bg-white p-4 shadow-sm"><strong class="font-display text-slate-900">{sc.name}</strong><span class="mt-1 block text-sm text-slate-700">{sc.benefit}</span><a href="/services/{sc.serviceSlug}" class="mt-2 inline-block font-bold text-teal-900 underline">Apply / Details →</a></li>
+								<li class="rounded-2xl bg-white p-4 shadow-sm"><strong class="font-display text-slate-900">{sc.name}</strong><span class="mt-1 block text-sm text-slate-700">{sc.benefit}</span><a href="/services/{sc.serviceSlug}" class="mt-2 inline-flex min-h-11 items-center font-bold text-teal-900 underline">Apply / Details →</a></li>
 							{/each}
 						</ul>
 					{:else}

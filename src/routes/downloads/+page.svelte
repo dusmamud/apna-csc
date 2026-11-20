@@ -33,7 +33,7 @@
 		<div class="mt-6 grid gap-4 md:grid-cols-2">
 			{#each popularServices as s (s.slug)}
 				<article class="rounded-2xl border border-slate-200 bg-white p-5">
-					<h3 class="font-display font-bold text-slate-900"><a class="hover:text-teal-800" href="/services/{s.slug}">{s.name}</a></h3>
+					<h3 class="font-display font-bold text-slate-900"><a class="inline-flex min-h-11 items-center hover:text-teal-800" href="/services/{s.slug}">{s.name}</a></h3>
 					<ul class="mt-2 space-y-1.5 text-sm text-slate-700">
 						{#each s.documents as doc (doc)}<li class="flex gap-2"><Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-teal-800" />{doc}</li>{/each}
 					</ul>

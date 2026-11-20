@@ -7,7 +7,7 @@
 <section aria-label="Shop information" class="bg-slate-950 text-white">
 	<div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-1 px-4 py-2 text-xs sm:text-sm">
 		<span class="inline-flex items-center gap-1.5"><Icon name="pin" class="h-4 w-4 text-amber-300" />{site.contact.address}</span>
-		<a class="inline-flex min-h-6 items-center gap-1.5 font-semibold hover:text-amber-300" href="tel:{site.contact.phoneHref}"><Icon name="phone" class="h-4 w-4 text-amber-300" />{site.contact.phone}</a>
+		<a class="inline-flex min-h-11 items-center gap-1.5 font-semibold hover:text-amber-300" href="tel:{site.contact.phoneHref}"><Icon name="phone" class="h-4 w-4 text-amber-300" />{site.contact.phone}</a>
 		<span class="hidden items-center gap-1.5 md:inline-flex"><Icon name="clock" class="h-4 w-4 text-amber-300" /><OpenNow /></span>
 		<span class="ml-auto hidden font-semibold text-teal-200 lg:inline">CSC ID: {site.cscId} (Mock)</span>
 	</div>
@@ -23,7 +23,7 @@
 		</a>
 		<nav class="ml-auto hidden items-center gap-1 lg:flex" aria-label="Main">
 			{#each nav as item (item.href)}
-				<a href={item.href} class="rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-800 hover:bg-teal-50 hover:text-teal-900">{item.label}</a>
+				<a href={item.href} class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-teal-50 hover:text-teal-900">{item.label}</a>
 			{/each}
 		</nav>
 		<a href="tel:{site.contact.phoneHref}" class="ml-auto inline-flex min-h-11 items-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-bold text-slate-950 hover:bg-amber-400 lg:ml-2"><Icon name="phone" class="h-5 w-5" /><span class="hidden sm:inline">Call Karo</span><span class="sm:hidden">Call</span></a>
@@ -36,6 +36,8 @@
 			{#each nav as item (item.href)}
 				<a href={item.href} class="block rounded-lg px-3 py-3 font-semibold text-slate-900 hover:bg-teal-50" onclick={() => (open = false)}>{item.label}</a>
 			{/each}
+			<a href="/student-zone" class="block rounded-lg px-3 py-3 font-semibold text-slate-900 hover:bg-teal-50" onclick={() => (open = false)}>Student Zone</a>
+			<a href="/kisan-corner" class="block rounded-lg px-3 py-3 font-semibold text-slate-900 hover:bg-teal-50" onclick={() => (open = false)}>Kisan Corner</a>
 			<a href="/about" class="block rounded-lg px-3 py-3 font-semibold text-slate-900 hover:bg-teal-50">About</a>
 			<a href="/faq" class="block rounded-lg px-3 py-3 font-semibold text-slate-900 hover:bg-teal-50">FAQ</a>
 			<a href="/reviews" class="block rounded-lg px-3 py-3 font-semibold text-slate-900 hover:bg-teal-50">Reviews</a>

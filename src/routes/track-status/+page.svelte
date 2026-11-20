@@ -4,7 +4,7 @@
 	import Icon from '#lib/components/Icon.svelte';
 	import { site, statusGroups } from '#lib/site.ts';
 
-	type SavedEnquiry = { reference: string; name: string; mobile: string; serviceName: string; date: string };
+	type SavedEnquiry = { reference: string; name: string; mobile: string; serviceName: string; date: string; visitDate?: string | null; slot?: string | null };
 	let refInput = $state('');
 	let mobileInput = $state('');
 	let found = $state<SavedEnquiry | null>(null);
@@ -45,6 +45,8 @@
 						<p><strong>Naam:</strong> {found.name}</p>
 						<p><strong>Service:</strong> {found.serviceName}</p>
 						<p><strong>Date:</strong> {found.date}</p>
+						{#if found.visitDate}<p><strong>Aane ki date:</strong> {found.visitDate}</p>{/if}
+						{#if found.slot}<p><strong>Time slot:</strong> {found.slot}</p>{/if}
 					</dl>
 					<p class="mt-3 font-semibold text-teal-900">Status: Prapt ho gayi hai — dukaan se sampark ki pratiksha karein, ya call kar lo.</p>
 				</div>

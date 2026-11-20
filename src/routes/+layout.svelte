@@ -2,6 +2,7 @@
 	import '../app.css';
 	import Header from '#lib/components/Header.svelte';
 	import Footer from '#lib/components/Footer.svelte';
+	import BackToTop from '#lib/components/BackToTop.svelte';
 	import Icon from '#lib/components/Icon.svelte';
 	import { site, whatsappLink } from '#lib/site.ts';
 	let { children } = $props();
@@ -42,10 +43,11 @@
 {@render children()}
 <Footer />
 <aside aria-label="WhatsApp quick contact">
-<a href={whatsappLink('Namaste! Mujhe ek service ke baare me jaankari chahiye.')} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp par baat karo" class="fixed bottom-20 right-4 z-40 grid h-14 w-14 place-items-center rounded-full bg-green-700 text-white shadow-lg hover:bg-green-800 lg:bottom-6">
+<a href={whatsappLink('Namaste! Mujhe ek service ke baare me jaankari chahiye.')} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp par baat karo" class="press fixed bottom-24 right-4 z-40 grid h-14 w-14 place-items-center rounded-full bg-green-700 text-white shadow-lg hover:bg-green-800 lg:bottom-6">
 	<Icon name="chat" class="h-7 w-7" />
 </a>
 </aside>
+<BackToTop />
 <nav aria-label="Quick contact" class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-3 border-t border-slate-300 bg-white text-center shadow-[0_-2px_10px_rgba(0,0,0,0.08)] lg:hidden">
 	<a href="tel:{site.contact.phoneHref}" class="flex min-h-12 flex-col items-center justify-center gap-0.5 py-2 text-xs font-bold text-slate-900"><Icon name="phone" class="h-5 w-5 text-teal-800" />Call</a>
 	<a href={whatsappLink('Namaste! Mujhe ek service ke baare me jaankari chahiye.')} target="_blank" rel="noopener noreferrer" class="flex min-h-12 flex-col items-center justify-center gap-0.5 py-2 text-xs font-bold text-slate-900"><Icon name="chat" class="h-5 w-5 text-green-700" />WhatsApp</a>

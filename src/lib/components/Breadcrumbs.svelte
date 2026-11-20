@@ -19,7 +19,7 @@
 		{#each items as c, i (c.label)}
 			<li class="flex items-center gap-1.5">
 				{#if i > 0}<span aria-hidden="true">›</span>{/if}
-				{#if c.href && i < items.length - 1}<a href={c.href} class="underline {dark ? 'text-amber-300' : 'text-teal-800'}">{c.label}</a>{:else}<span aria-current={i === items.length - 1 ? 'page' : undefined}>{c.label}</span>{/if}
+				{#if c.href && i < items.length - 1}<a href={c.href} class="inline-block py-3 -my-2 underline {dark ? 'text-amber-300' : 'text-teal-800'}">{c.label}</a>{:else}<span aria-current={i === items.length - 1 ? 'page' : undefined}>{c.label}</span>{/if}
 			</li>
 		{/each}
 	</ol>

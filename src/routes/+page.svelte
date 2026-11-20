@@ -4,7 +4,8 @@
 	import Reveal from '#lib/components/Reveal.svelte';
 	import ServiceCard from '#lib/components/ServiceCard.svelte';
 	import FaqList from '#lib/components/FaqList.svelte';
-	import { categories, images, inr, partners, popularServices, priceList, schemes, sectionHindi, services, site, stats, steps, testimonials, toolsList, trustBadges, updates, whatsappLink } from '#lib/site.ts';
+	import { categories, images, inr, offers, partners, popularServices, priceList, schemes, sectionHindi, services, site, stats, steps, testimonials, toolsList, trustBadges, updates, whatsappLink } from '#lib/site.ts';
+	const catCount = (slug: string) => services.filter((s) => s.category === slug).length;
 	import CountUp from '#lib/components/CountUp.svelte';
 	import { animate } from 'motion';
 	let heroEl: HTMLDivElement | undefined = $state();
@@ -45,9 +46,25 @@
 		</div>
 	</section>
 
-	<section class="overflow-hidden border-b border-amber-200 bg-amber-50 py-2.5" aria-label="Latest updates">
+	<section class="overflow-hidden border-b border-amber-200 bg-amber-50 py-1" aria-label="Latest updates">
 		<div class="ticker-track flex w-max gap-10 whitespace-nowrap px-4 text-sm font-semibold text-slate-900">
-			{#each [...updates, ...updates] as u, ti (u.slug + '-' + ti)}<a href="/updates/{u.slug}" class="hover:text-teal-800"><span class="mr-2 rounded bg-teal-800 px-2 py-0.5 text-xs font-bold text-white">{u.type}</span>{u.title} — Last date: {u.lastDate}</a>{/each}
+			{#each [...updates, ...updates] as u, ti (u.slug + '-' + ti)}<a href="/updates/{u.slug}" class="inline-flex min-h-11 items-center hover:text-teal-800"><span class="mr-2 rounded bg-teal-800 px-2 py-0.5 text-xs font-bold text-white">{u.type}</span>{u.title} — Last date: {u.lastDate}</a>{/each}
+		</div>
+	</section>
+
+<section class="mx-auto max-w-6xl px-4 pt-8" aria-labelledby="offers-h">
+		<div class="flex flex-wrap items-end justify-between gap-3">
+			<h2 id="offers-h" class="font-display text-2xl font-black text-slate-900">Is Mahine Ke Offers <span class="text-lg font-bold text-teal-800">· ऑफ़र</span></h2>
+			<a href="/offers" class="inline-flex min-h-11 items-center font-bold text-teal-900 underline">Sab offers →</a>
+		</div>
+		<div class="mt-4 grid gap-3 sm:grid-cols-3">
+			{#each offers.slice(0, 3) as o (o.slug)}
+				<a href="/offers" class="press block rounded-2xl border-2 border-amber-300 bg-amber-50 p-4">
+					<p class="font-display font-bold leading-snug text-slate-900">{o.title}</p>
+					<p class="mt-1 text-sm font-black text-teal-900">{o.priceNote}</p>
+					<p class="mt-1 text-xs font-bold text-red-800">Sirf {o.validTill} tak</p>
+				</a>
+			{/each}
 		</div>
 	</section>
 
@@ -84,11 +101,30 @@
 		</div>
 	</section>
 
+	<section class="mx-auto max-w-6xl px-4 pb-12" aria-labelledby="bento-h">
+		<h2 id="bento-h" class="font-display text-3xl font-black text-slate-900">All Services At a Glance <span class="block text-lg font-bold text-teal-800">एक नज़र में सब सेवाएँ</span></h2>
+		<div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+			<a href="/services?cat=identity" class="press col-span-2 block rounded-3xl bg-teal-950 p-6 text-white lg:row-span-2">
+				<Icon name="id" class="h-10 w-10 text-amber-300" />
+				<h3 class="mt-3 font-display text-2xl font-black">Identity Services</h3>
+				<p class="mt-1 text-sm leading-relaxed text-teal-100">Aadhaar, PAN, Voter ID, Passport, Ration Card — {catCount('identity')} services. Pehchan ka har kaam, sudhaar aur PVC print ke saath.</p>
+				<p class="mt-3 font-bold text-amber-300">Dekho →</p>
+			</a>
+			<a href="/services?cat=online-forms" class="press block rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><Icon name="form" class="h-8 w-8 text-teal-800" /><h3 class="mt-2 font-display font-bold text-slate-900">Online Forms</h3><p class="text-sm font-semibold text-teal-800">{catCount('online-forms')} services</p></a>
+			<a href="/services?cat=certificates" class="press block rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><Icon name="certificate" class="h-8 w-8 text-teal-800" /><h3 class="mt-2 font-display font-bold text-slate-900">Certificates (RTPS)</h3><p class="text-sm font-semibold text-teal-800">{catCount('certificates')} services</p></a>
+			<a href="/student-zone" class="press block rounded-3xl bg-amber-500 p-5"><Icon name="book" class="h-8 w-8 text-slate-950" /><h3 class="mt-2 font-display font-bold text-slate-950">Student Zone</h3><p class="text-sm font-semibold text-slate-900">Scholarship · Admission · Exam</p></a>
+			<a href="/kisan-corner" class="press block rounded-3xl bg-teal-800 p-5 text-white"><Icon name="landmark" class="h-8 w-8 text-amber-300" /><h3 class="mt-2 font-display font-bold">Kisan Corner</h3><p class="text-sm font-semibold text-teal-100">PM-Kisan · KCC · Fasal Bima</p></a>
+			<a href="/services?cat=banking" class="press block rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><Icon name="bank" class="h-8 w-8 text-teal-800" /><h3 class="mt-2 font-display font-bold text-slate-900">Banking & Finance</h3><p class="text-sm font-semibold text-teal-800">{catCount('banking')} services</p></a>
+			<a href="/services?cat=print" class="press block rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><Icon name="printer" class="h-8 w-8 text-teal-800" /><h3 class="mt-2 font-display font-bold text-slate-900">Print & Digital</h3><p class="text-sm font-semibold text-teal-800">{catCount('print')} services</p></a>
+			<a href="/tools" class="press col-span-2 block rounded-3xl border-2 border-teal-700 bg-teal-50 p-5"><Icon name="wifi" class="h-8 w-8 text-teal-800" /><h3 class="mt-2 font-display font-bold text-slate-900">Muft Tools — Photo Resize, UPI QR, GST & EMI Calculator</h3><p class="text-sm font-semibold text-teal-800">7 tools, bilkul muft · Tools kholo →</p></a>
+		</div>
+	</section>
+
 	<section class="bg-teal-50 py-12" aria-labelledby="pop-h">
 		<div class="mx-auto max-w-6xl px-4">
 			<div class="flex flex-wrap items-end justify-between gap-3">
 				<h2 id="pop-h" class="font-display text-3xl font-black text-slate-900">Sabse Zyada Hone Wale Kaam <span class="block text-lg font-bold text-teal-800">{sectionHindi.popular}</span></h2>
-				<a href="/services" class="font-bold text-teal-900 underline">Sab {services.length} services →</a>
+				<a href="/services" class="inline-flex min-h-11 items-center font-bold text-teal-900 underline">Sab {services.length} services →</a>
 			</div>
 			<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{#each popularServices.slice(0, 6) as s, i (s.slug)}<Reveal delay={i * 60}><ServiceCard service={s} /></Reveal>{/each}
@@ -128,7 +164,7 @@
 		<div class="mx-auto max-w-6xl px-4">
 			<div class="flex flex-wrap items-end justify-between gap-3">
 				<div><h2 id="price-h" class="font-display text-3xl font-black text-slate-900">Saaf Rate — Koi Chhupa Charge Nahi <span class="block text-lg font-bold text-teal-800">{sectionHindi.pricing}</span></h2><p class="mt-2 text-slate-700">Sarkari / exam fee hamesha alag, actual par — receipt ke saath.</p></div>
-				<a href="/pricing" class="font-bold text-teal-900 underline">Poora rate chart →</a>
+				<a href="/pricing" class="inline-flex min-h-11 items-center font-bold text-teal-900 underline">Poora rate chart →</a>
 			</div>
 			<ul class="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
 				{#each priceList.slice(0, 9) as p (p.name)}<li class="flex items-baseline justify-between gap-3 border-b border-dashed border-slate-300 pb-2"><span class="text-slate-800">{p.name}</span><strong class="whitespace-nowrap text-slate-900">{inr(p.price)} <span class="text-xs font-semibold text-slate-600">{p.unit}</span></strong></li>{/each}
@@ -150,7 +186,7 @@
 
 	<section class="bg-teal-50 py-12" aria-labelledby="rev-h">
 		<div class="mx-auto max-w-6xl px-4">
-			<div class="flex flex-wrap items-end justify-between gap-3"><h2 id="rev-h" class="font-display text-3xl font-black text-slate-900">Graahak Kya Kehte Hain <span class="block text-lg font-bold text-teal-800">{sectionHindi.reviews}</span></h2><a href="/reviews" class="font-bold text-teal-900 underline">Sab reviews →</a></div>
+			<div class="flex flex-wrap items-end justify-between gap-3"><h2 id="rev-h" class="font-display text-3xl font-black text-slate-900">Graahak Kya Kehte Hain <span class="block text-lg font-bold text-teal-800">{sectionHindi.reviews}</span></h2><a href="/reviews" class="inline-flex min-h-11 items-center font-bold text-teal-900 underline">Sab reviews →</a></div>
 			<div class="mt-6 flex flex-wrap items-center gap-4 rounded-2xl bg-white p-5 shadow-sm">
 				<p class="font-display text-4xl font-black text-slate-900">{site.rating}</p>
 				<div>
@@ -167,7 +203,7 @@
 	</section>
 
 	<section class="mx-auto max-w-6xl px-4 py-12" aria-labelledby="gal-h">
-		<div class="flex flex-wrap items-end justify-between gap-3"><h2 id="gal-h" class="font-display text-3xl font-black text-slate-900">Dukaan Ki Jhalak</h2><a href="/gallery" class="font-bold text-teal-900 underline">Gallery →</a></div>
+		<div class="flex flex-wrap items-end justify-between gap-3"><h2 id="gal-h" class="font-display text-3xl font-black text-slate-900">Dukaan Ki Jhalak</h2><a href="/gallery" class="inline-flex min-h-11 items-center font-bold text-teal-900 underline">Gallery →</a></div>
 		<div class="mt-6 grid gap-4 sm:grid-cols-3">
 			<Picture stem={images.counter.stem} alt={images.counter.alt} width={1200} height={800} class="aspect-[3/2] w-full rounded-2xl object-cover" />
 			<Picture stem={images.printing.stem} alt={images.printing.alt} width={1200} height={800} class="aspect-[3/2] w-full rounded-2xl object-cover" />
@@ -178,7 +214,7 @@
 	<section class="mx-auto max-w-4xl px-4 pb-14" aria-labelledby="faq-h">
 		<h2 id="faq-h" class="font-display text-3xl font-black text-slate-900">Aksar Poochhe Jaane Wale Sawal</h2>
 		<div class="mt-6"><FaqList limit={4} /></div>
-		<p class="mt-6 text-center"><a href="/faq" class="font-bold text-teal-900 underline">Sab sawal aur dukaan ki policy →</a></p>
+		<p class="mt-6 text-center"><a href="/faq" class="inline-flex min-h-11 items-center font-bold text-teal-900 underline">Sab sawal aur dukaan ki policy →</a></p>
 		<div class="mt-10 rounded-3xl bg-amber-500 px-6 py-8 text-center">
 			<p class="font-display text-2xl font-black text-slate-950">Kaam karwana hai? Der kis baat ki!</p>
 			<p class="mx-auto mt-2 max-w-xl font-medium text-slate-900">Dukaan par aao, call karo ya WhatsApp par documents bhejo — rate pehle, kaam baad me.</p>

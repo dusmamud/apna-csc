@@ -15,6 +15,13 @@
 <svelte:head><title>{s.name} — {inr(s.price)} {s.priceNote} | Apna CSC Gaya</title><meta name="description" content={s.description} />
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<script type="application/ld+json">${JSON.stringify(faqLd)}</script>`}</svelte:head>
+<style>
+	@media print {
+		:global(body *) { visibility: hidden; }
+		:global(.checklist-print), :global(.checklist-print *) { visibility: visible; }
+		:global(.checklist-print) { position: absolute; inset: 0; display: block !important; }
+	}
+</style>
 <main id="main">
 	<section class="bg-teal-950 text-white"><div class="mx-auto max-w-6xl px-4 py-12">
 		<Breadcrumbs dark items={[{ label: 'Home', href: '/' }, { label: 'Services', href: '/services' }, { label: s.name }]} />
@@ -28,7 +35,15 @@
 	</div></section>
 	<section class="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-[1fr_360px]">
 		<div>
-			<h2 class="font-display text-2xl font-black text-slate-900">Documents Required — Ye Lekar Aao</h2>
+			<div class="flex flex-wrap items-center justify-between gap-3">
+				<h2 class="font-display text-2xl font-black text-slate-900">Documents Required — Ye Lekar Aao</h2>
+				<button type="button" onclick={() => window.print()} class="press inline-flex min-h-11 items-center gap-2 rounded-xl border-2 border-teal-800 px-4 py-2.5 font-bold text-teal-900"><Icon name="printer" class="h-5 w-5" />Checklist Print Karo</button>
+			</div>
+			<div class="checklist-print" style="display:none">
+				<p style="font-family:sans-serif"><strong>{site.name}</strong> — {s.name}<br />Rate: {s.price > 0 ? `${inr(s.price)} ${s.priceNote}` : s.priceNote} · Samay: {s.duration}<br />{site.contact.address} · {site.contact.phone}</p>
+				<p style="font-family:sans-serif"><strong>Documents Required:</strong></p>
+				<ul style="font-family:sans-serif">{#each s.documents as d (d)}<li>☐ {d}</li>{/each}</ul>
+			</div>
 			<ul class="mt-4 space-y-2.5">{#each s.documents as d (d)}<li class="flex gap-3 rounded-xl bg-teal-50 px-4 py-3 font-medium text-slate-900"><Icon name="check" class="mt-0.5 h-5 w-5 shrink-0 text-teal-800" />{d}</li>{/each}</ul>
 			<h2 class="mt-10 font-display text-2xl font-black text-slate-900">Prakriya — 3 Asaan Step</h2>
 			<ol class="mt-4 space-y-3">

@@ -21,7 +21,7 @@
 						<h2 class="mt-2 font-display text-xl font-bold leading-snug text-slate-900"><a class="hover:text-teal-800" href="/blog/{post.slug}">{post.title}</a></h2>
 						<p class="mt-1 font-semibold text-teal-800">{post.hindi}</p>
 						<p class="mt-2 flex-1 text-sm leading-relaxed text-slate-700">{post.excerpt}</p>
-						<a href="/blog/{post.slug}" class="mt-4 font-bold text-teal-900 underline">Poori Guide Padho →</a>
+						<a href="/blog/{post.slug}" class="mt-4 inline-flex min-h-11 items-center font-bold text-teal-900 underline">Poori Guide Padho →</a>
 					</div>
 				</article>
 			{/each}

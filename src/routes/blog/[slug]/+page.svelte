@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Breadcrumbs from '#lib/components/Breadcrumbs.svelte';
+	import ShareButtons from '#lib/components/ShareButtons.svelte';
 	import Picture from '#lib/components/Picture.svelte';
 	import Icon from '#lib/components/Icon.svelte';
 	import { blogPosts, getService, site, whatsappLink } from '#lib/site.ts';
@@ -45,6 +46,7 @@
 				<h2 class="mt-10 font-display text-2xl font-black text-slate-900">{sec.heading}</h2>
 				{#each sec.paras as para (para)}<p class="mt-3 leading-relaxed text-slate-800">{para}</p>{/each}
 			{/each}
+			<div class="mt-10 border-t border-slate-200 pt-6"><ShareButtons title={post.title} path="/blog/{post.slug}" /></div>
 			{#if service}
 				<aside class="mt-10 rounded-3xl bg-teal-950 p-6 text-white sm:p-8">
 					<p class="font-display text-xl font-black">Ye kaam dukaan par karwana hai?</p>

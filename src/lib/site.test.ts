@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { allStatusLinks, blogPosts, categories, downloads, faqs, footer, getBlogPost, getService, getUpdate, inr, nav, partners, popularServices, priceList, schemes, services, site, statusGroups, testimonials, toolsList, trustBadges, updates } from './site.ts';
+import { allStatusLinks, blogPosts, categories, downloads, enquirySlots, faqs, footer, getBlogPost, getOffer, getService, getUpdate, inr, nav, offers, partners, popularServices, priceList, schemes, services, site, slotLabel, statusGroups, testimonials, toolsList, trustBadges, updates } from './site.ts';
 
 describe('site — Bihar CSC, en-IN / INR', () => {
 	it('is en-IN / INR with mock Gaya Bihar identity', () => {
@@ -51,8 +51,8 @@ describe('pricing, schemes, updates', () => {
 		expect(priceList.length).toBeGreaterThanOrEqual(24);
 		for (const p of priceList) { expect(p.price).toBeGreaterThan(0); expect(p.name.length).toBeGreaterThan(0); }
 	});
-	it('has 8 schemes including PM-JAY with ₹5 lakh benefit', () => {
-		expect(schemes).toHaveLength(8);
+	it('has 9 schemes including PM-JAY with ₹5 lakh benefit', () => {
+		expect(schemes).toHaveLength(9);
 		expect(schemes[0].benefit).toContain('₹5 lakh');
 		for (const sc of schemes) expect(getService(sc.serviceSlug)).toBeDefined();
 	});
@@ -97,6 +97,36 @@ describe('upgrade additions — tools, track, downloads, blog, trust', () => {
 		expect(trustBadges.length).toBeGreaterThanOrEqual(4);
 		expect(partners.length).toBeGreaterThanOrEqual(10);
 		expect(toolsList.length).toBeGreaterThanOrEqual(5);
+	});
+});
+
+describe('round-2 additions — offers, zones, slots, kisan services', () => {
+	it('has 4-6 mock offers valid in Dec 2026 with terms and real service links', () => {
+		expect(offers.length).toBeGreaterThanOrEqual(4);
+		expect(offers.length).toBeLessThanOrEqual(6);
+		for (const o of offers) {
+			expect(getOffer(o.slug)).toBe(o);
+			expect(o.validISO).toMatch(/^2026-12-/);
+			expect(o.terms.length).toBeGreaterThanOrEqual(3);
+			if (o.serviceSlug) expect(getService(o.serviceSlug)).toBeDefined();
+		}
+	});
+	it('kisan services exist: fasal bima + bhulekh', () => {
+		expect(getService('pm-fasal-bima')?.category).toBe('schemes');
+		expect(getService('bhulekh-land-records')?.category).toBe('certificates');
+		const farmerSchemes = schemes.filter((sc) => sc.slug === 'pmfby');
+		expect(farmerSchemes).toHaveLength(1);
+	});
+	it('tools list includes UPI QR and GST', () => {
+		expect(toolsList.map((t) => t.id)).toContain('upi-qr');
+		expect(toolsList.map((t) => t.id)).toContain('gst');
+	});
+	it('enquiry slots cover shop hours and labels resolve', () => {
+		expect(enquirySlots.length).toBeGreaterThanOrEqual(5);
+		for (const s of enquirySlots) expect(slotLabel(s.value)).toBe(s.label);
+	});
+	it('nav includes offers', () => {
+		expect(nav.map((n) => n.href)).toContain('/offers');
 	});
 });
 
