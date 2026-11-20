@@ -1,5 +1,8 @@
 # Apna Digital Seva Kendra — CSC & Cyber Cafe (Mock)
 
+**Live site:** https://apna-csc.pages.dev
+**Repo:** https://github.com/dusmamud/apna-csc
+
 SvelteKit 3 / Svelte 5 (runes) / Tailwind 4 / adapter-static website for a mock
 Bihar CSC & Cyber Cafe in Gaya. **All content is mock** and lives in ONE file:
 `src/lib/site.ts` — swap it with real client data after design approval.
